@@ -16,7 +16,7 @@
   --text:#0f172a;
   --muted:#0f172a; /* light mode: use dark text for maximum contrast */
   --brand:#2563eb;
-  --accent:#b45309;
+  --accent:#ffd166; /* unify accent to yellow for high contrast */
   --card:#ffffff;
   --border:#e5e7eb;
 }
@@ -51,7 +51,7 @@ body{
 /* Sections */
 section.section{padding:56px 0; border-bottom:1px solid var(--border); background:var(--bg)}
 section.section.alt{background:var(--bg-elev)}
-.section h2{margin:0 0 12px; font-size:28px}
+.section h2{margin:0 0 12px; font-size:28px; color:var(--accent)}
 .section .subtitle{margin:0 0 28px; color:var(--muted)}
 
 /* Cards */
