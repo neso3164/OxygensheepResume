@@ -3,7 +3,7 @@
   --bg-elev:#121318;
   --text:#e6e6e6;
   --muted:#a8a8a8;
-  --brand:#5bbad5;
+  --brand:#ffd166; /* dark mode: change brand (links/highlights) to yellow for better contrast */
   --accent:#ffd166;
   --card:#121318;
   --border:#1f2128;
@@ -14,7 +14,7 @@
   --bg:#f9fafb;
   --bg-elev:#ffffff;
   --text:#0f172a;
-  --muted:#475569;
+  --muted:#2563eb; /* light mode: muted text to blue for visibility */
   --brand:#2563eb;
   --accent:#b45309;
   --card:#ffffff;
@@ -75,6 +75,9 @@ section.section.alt{background:var(--bg-elev)}
 .site-footer{margin-top:auto; border-top:1px solid var(--border); background:var(--bg-elev)}
 .site-footer .inner{display:flex; align-items:center; justify-content:space-between; gap:12px; height:64px}
 .muted{color:var(--muted)}
+
+/* Certificates */
+.cert-image{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--border)}
 
 /* Utilities */
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
