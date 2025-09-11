@@ -13,13 +13,13 @@
 .theme-light{
   /* Green theme */
   --bg:#f0fdf4;          /* light green background */
-  --bg-elev:#ffffff;     /* elevated surfaces remain white for contrast */
+  --bg-elev:#ecfdf5;     /* slightly green elevated background */
   --text:#052e16;        /* dark green text */
   --muted:#ffd166;       /* keep high-contrast yellow as requested */
   --brand:#16a34a;       /* primary green */
   --accent:#16a34a;      /* accent also green for consistency */
-  --card:#ffffff;
-  --border:#bbf7d0;      /* soft green border */
+  --card:#d1fae5;        /* deeper green for cards/white boxes */
+  --border:#86efac;      /* stronger green border for contrast */
 }
 
 *{box-sizing:border-box}
