@@ -2,7 +2,7 @@
   --bg:#0b0c10; /* dark */
   --bg-elev:#121318;
   --text:#e6e6e6;
-  --muted:#a8a8a8;
+  --muted:#ffd166; /* muted (previously gray) now yellow */
   --brand:#ffd166; /* dark mode: change brand (links/highlights) to yellow for better contrast */
   --accent:#ffd166;
   --card:#121318;
@@ -14,7 +14,7 @@
   --bg:#f9fafb;
   --bg-elev:#ffffff;
   --text:#0f172a;
-  --muted:#0f172a; /* light mode: use dark text for maximum contrast */
+  --muted:#ffd166; /* muted (previously gray) now yellow */
   --brand:#2563eb;
   --accent:#ffd166; /* unify accent to yellow for high contrast */
   --card:#ffffff;
