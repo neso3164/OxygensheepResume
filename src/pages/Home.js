@@ -17,7 +17,9 @@ export function HomePage(){
   const right = document.createElement('div');
   right.className = 'stack';
   right.innerHTML = `
-    <div class="card" style="height:220px; display:flex; align-items:center; justify-content:center;">放個人照片或代表圖</div>
+    <div class="card" style="display:flex; align-items:center; justify-content:center;">
+      <img src="assets/ME.jpg" alt="我的照片" style="width:220px; height:220px; object-fit:cover; border-radius:16px; border:1px solid var(--border)" />
+    </div>
   `;
   heroContent.appendChild(left);
   heroContent.appendChild(right);
