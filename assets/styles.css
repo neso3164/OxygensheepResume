@@ -11,14 +11,15 @@
 
 /* light mode overrides */
 .theme-light{
-  --bg:#f9fafb;
-  --bg-elev:#ffffff;
-  --text:#0f172a;
-  --muted:#ffd166; /* muted (previously gray) now yellow */
-  --brand:#2563eb;
-  --accent:#ffd166; /* unify accent to yellow for high contrast */
+  /* Green theme */
+  --bg:#f0fdf4;          /* light green background */
+  --bg-elev:#ffffff;     /* elevated surfaces remain white for contrast */
+  --text:#052e16;        /* dark green text */
+  --muted:#ffd166;       /* keep high-contrast yellow as requested */
+  --brand:#16a34a;       /* primary green */
+  --accent:#16a34a;      /* accent also green for consistency */
   --card:#ffffff;
-  --border:#e5e7eb;
+  --border:#bbf7d0;      /* soft green border */
 }
 
 *{box-sizing:border-box}
