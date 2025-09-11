@@ -15,12 +15,13 @@ export function EducationPage(){
   el.appendChild(s);
 
   // Certificates (images will render in the provided order)
+  const cacheVer = 'v=20250911';
   const certs = [
-    { title: 'TQC-DK 人工智慧應用與技術（進階級）', src: 'assets/certificates/tqc-ai-advanced.png' },
-    { title: 'Google Analytics Certification', src: 'assets/certificates/google-analytics-2025.png' },
-    { title: 'Google Ads：AI 技術輔助高效廣告認證', src: 'assets/certificates/google-ads-ai-performance-2025.png' },
-    { title: 'Google Ads：AI 技術輔助購物廣告認證', src: 'assets/certificates/google-ads-shopping-ai-2025.png' },
-    { title: 'Google Ads 多媒體廣告認證（Display）', src: 'assets/certificates/google-ads-display-2025.png' },
+    { title: 'TQC-DK 人工智慧應用與技術（進階級）', src: `assets/certificates/tqc-ai-advanced.png?${cacheVer}` },
+    { title: 'Google Analytics Certification', src: `assets/certificates/google-analytics-2025.png?${cacheVer}` },
+    { title: 'Google Ads：AI 技術輔助高效廣告認證', src: `assets/certificates/google-ads-ai-performance-2025.png?${cacheVer}` },
+    { title: 'Google Ads：AI 技術輔助購物廣告認證', src: `assets/certificates/google-ads-shopping-ai-2025.png?${cacheVer}` },
+    { title: 'Google Ads 多媒體廣告認證（Display）', src: `assets/certificates/google-ads-display-2025.png?${cacheVer}` },
   ];
 
   const certGrid = document.createElement('div');
