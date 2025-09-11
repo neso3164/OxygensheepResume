@@ -14,7 +14,7 @@
   --bg:#f9fafb;
   --bg-elev:#ffffff;
   --text:#0f172a;
-  --muted:#2563eb; /* light mode: muted text to blue for visibility */
+  --muted:#0f172a; /* light mode: use dark text for maximum contrast */
   --brand:#2563eb;
   --accent:#b45309;
   --card:#ffffff;
@@ -78,6 +78,7 @@ section.section.alt{background:var(--bg-elev)}
 
 /* Certificates */
 .cert-image{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--border)}
+.cert-caption{color:var(--text); font-weight:600}
 
 /* Utilities */
 .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}

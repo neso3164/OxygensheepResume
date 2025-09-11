@@ -16,7 +16,7 @@ export function EducationPage(){
 
   // Certificates (images will render in the provided order)
   const certs = [
-    { title: 'TQC-DK 人工智慧應用與技術（進階級）', src: 'assets/certificates/tqc-ai-advanced.jpg' },
+    { title: 'TQC-DK 人工智慧應用與技術（進階級）', src: 'assets/certificates/tqc-ai-advanced.png' },
     { title: 'Google Analytics Certification', src: 'assets/certificates/google-analytics-2025.png' },
     { title: 'Google Ads：AI 技術輔助高效廣告認證', src: 'assets/certificates/google-ads-ai-performance-2025.png' },
     { title: 'Google Ads：AI 技術輔助購物廣告認證', src: 'assets/certificates/google-ads-shopping-ai-2025.png' },
@@ -34,6 +34,7 @@ export function EducationPage(){
     img.className = 'cert-image';
     const caption = document.createElement('div');
     caption.style.marginTop = '8px';
+    caption.className = 'cert-caption';
     caption.textContent = c.title;
     card.appendChild(img);
     card.appendChild(caption);
