@@ -45,12 +45,7 @@ export function ContactPage(){
     }
   };
   img.onerror = tryNext;
-  img.onload = () => {
-    const ok = document.createElement('p');
-    ok.className = 'muted';
-    ok.textContent = `已載入：${img.src.replace(window.location.origin, '')}`;
-    qrSlot.appendChild(ok);
-  };
+  img.onload = () => {};
   tryNext();
   qrSlot.appendChild(img);
 
@@ -61,7 +56,6 @@ export function ContactPage(){
     <label>${t('contact_form_email')}<input required type="email" name="email" class="btn" style="width:100%"></label>
     <label>${t('contact_form_message')}<textarea required name="message" class="btn" style="width:100%; min-height:120px"></textarea></label>
     <button class="btn" type="submit">${t('contact_submit')}</button>
-    <p class="muted">${t('contact_note')}</p>
   `;
   form.addEventListener('submit', e => {
     e.preventDefault();
