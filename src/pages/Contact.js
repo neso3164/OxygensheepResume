@@ -87,8 +87,68 @@ export function ContactPage(){
       alert('驗證未通過，請確認加總結果。');
       return;
     }
-    alert('感謝留言！稍後可接上表單服務或 Email Link。');
-    form.reset();
+
+    const name = (fd.get('name') || '').toString().trim();
+    const email = (fd.get('email') || '').toString().trim();
+    const message = (fd.get('message') || '').toString().trim();
+    const payload = {
+      keyword: '履歷網頁來信',
+      name,
+      email,
+      message,
+      source: 'contact-form',
+      url: location.href,
+      userAgent: navigator.userAgent,
+      timestamp: new Date().toISOString()
+    };
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = '送出中…';
+    }
+
+    const webhookUrl = 'https://hook.us2.make.com/qhnmx6dyldf5y99lhfpvv6cankm2pi27';
+
+    const finalize = (ok) => {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '送出';
+      }
+      if (ok) {
+        alert('已送出！我會盡快回覆您。');
+        form.reset();
+        // regenerate math to avoid replay
+        const na = Math.floor(Math.random() * 4) + 2;
+        const nb = Math.floor(Math.random() * 5) + 2;
+        form.dataset.a = String(na);
+        form.dataset.b = String(nb);
+      } else {
+        alert('送出時發生問題，請稍後再試或直接寄信。');
+      }
+    };
+
+    try {
+      // Prefer sendBeacon for CORS-safe, fire-and-forget delivery
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+        const ok = navigator.sendBeacon(webhookUrl, blob);
+        finalize(ok);
+        return;
+      }
+      // Fallback to fetch with no-cors; request will be opaque but sent
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        mode: 'no-cors',
+        keepalive: true
+      })
+      .then(() => finalize(true))
+      .catch(() => finalize(false));
+    } catch (err) {
+      finalize(false);
+    }
   });
 
   // set random a,b per mount
