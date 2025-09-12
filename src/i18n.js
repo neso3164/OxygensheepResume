@@ -18,8 +18,8 @@ const dict = {
 
     home_title: '首頁',
     home_subtitle: '快速認識你',
-    home_hero_intro: '嗨！我是［你的名字］',
-    home_hero_desc: '這裡是一句話自我介紹，放上你的職稱與專長。稍後你可以把內文替換為真實資訊。',
+    home_hero_intro: '嗨！我是張念祥 (oxygensheep)',
+    home_hero_desc: '具 15 年跨產業經驗，專長 AI 工具應用與營運管理，能整合自動化流程提升效率，並曾創業經營水族館 8 年，培養商業規劃與顧客經營能力。',
     home_cta_portfolio: '看作品集',
     home_cta_contact: '聯絡我',
     home_quick_links: '快速連結',
@@ -95,8 +95,8 @@ const dict = {
 
     home_title: 'Home',
     home_subtitle: 'Get to know me quickly',
-    home_hero_intro: "Hi! I'm [Your Name]",
-    home_hero_desc: 'One-line self intro with role and strengths. Replace later.',
+    home_hero_intro: "Hi! I'm Zhang Nian-Xiang (oxygensheep)",
+    home_hero_desc: 'With 15 years of cross-industry experience, specializing in AI tool applications and operations management. Capable of integrating automated processes to improve efficiency, and previously founded and operated an aquarium business for 8 years, developing business planning and customer relationship management skills.',
     home_cta_portfolio: 'View Portfolio',
     home_cta_contact: 'Contact Me',
     home_quick_links: 'Quick Links',
