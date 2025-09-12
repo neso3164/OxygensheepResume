@@ -16,6 +16,7 @@ export function AboutPage(){
     <h3>${t('bio_title')}</h3>
     <p>${t('bio_p1')}</p>
     <p>${t('bio_p2')}</p>
+    <p>${t('bio_p3')}</p>
   `;
   const s2 = Section({ title: t('bio_title'), subtitle: t('bio_subtitle'), alt: true, children: bio });
 
