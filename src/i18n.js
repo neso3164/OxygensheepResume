@@ -37,10 +37,10 @@ const dict = {
 
     portfolio_title: '作品集',
     portfolio_subtitle: '支援影片嵌入與卡片展示',
-    work_a: '作品 A',
+    work_a: 'LINE Bot 自動化系統',
     work_b: '作品 B',
     work_c: '作品 C',
-    work_a_desc: '簡介：此處稍後替換為真實專案說明。',
+    work_a_desc: 'LINE Bot 可依照需求擴充其他功能',
     work_b_desc: '可以放截圖或影片嵌入。',
     work_c_desc: '支援本機影片：改為 <video>，見 README。',
 
@@ -115,10 +115,10 @@ const dict = {
 
     portfolio_title: 'Portfolio',
     portfolio_subtitle: 'Video embeds and card layout',
-    work_a: 'Project A',
+    work_a: 'LINE Bot Automation System',
     work_b: 'Project B',
     work_c: 'Project C',
-    work_a_desc: 'Brief: replace with actual project description later.',
+    work_a_desc: 'LINE Bot can be expanded with additional features as needed',
     work_b_desc: 'Use screenshots or embedded videos.',
     work_c_desc: 'Local video supported: switch to <video>, see README.',
 
