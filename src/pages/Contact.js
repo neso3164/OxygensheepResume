@@ -80,6 +80,7 @@ export function ContactPage(){
       userAgent: navigator.userAgent,
       timestamp: new Date().toISOString()
     };
+    const formEncoded = new URLSearchParams(payload).toString();
 
     const submitBtn = form.querySelector('button[type="submit"]');
     if (submitBtn) {
@@ -105,16 +106,16 @@ export function ContactPage(){
     try {
       // Prefer sendBeacon for CORS-safe, fire-and-forget delivery
       if (navigator.sendBeacon) {
-        const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+        const blob = new Blob([formEncoded], { type: 'application/x-www-form-urlencoded;charset=UTF-8' });
         const ok = navigator.sendBeacon(webhookUrl, blob);
         finalize(ok);
         return;
       }
-      // Fallback to fetch with no-cors; request will be opaque but sent
+      // Fallback to fetch with no-cors using form encoding (simple request)
       fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: formEncoded,
         mode: 'no-cors',
         keepalive: true
       })
