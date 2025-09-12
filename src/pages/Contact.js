@@ -60,33 +60,12 @@ export function ContactPage(){
     <label>${t('contact_form_name')}<input required name="name" class="btn" style="width:100%"></label>
     <label>${t('contact_form_email')}<input required type="email" name="email" class="btn" style="width:100%"></label>
     <label>${t('contact_form_message')}<textarea required name="message" class="btn" style="width:100%; min-height:120px"></textarea></label>
-    <!-- honeypot field (hidden to humans) -->
-    <div style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;">
-      <label>Leave this field empty<input name="company" autocomplete="off"></label>
-    </div>
-    <!-- simple math challenge -->
-    <div class="row" style="align-items:center; gap:8px;">
-      <label style="flex:1 1 auto;">${t('contact_math_label')} <input required name="sum" class="btn" style="width:100%" placeholder="e.g. 7"></label>
-    </div>
     <button class="btn" type="submit">${t('contact_submit')}</button>
     <p class="muted">${t('contact_note')}</p>
   `;
   form.addEventListener('submit', e => {
     e.preventDefault();
     const fd = new FormData(form);
-    // honeypot check
-    if ((fd.get('company') || '').toString().trim() !== ''){
-      alert('驗證失敗，請重試。');
-      return;
-    }
-    // math check: generate or cache numbers
-    const a = Number(form.dataset.a || 3);
-    const b = Number(form.dataset.b || 4);
-    const answer = Number((fd.get('sum') || '').toString().trim());
-    if (answer !== a + b){
-      alert('驗證未通過，請確認加總結果。');
-      return;
-    }
 
     const name = (fd.get('name') || '').toString().trim();
     const email = (fd.get('email') || '').toString().trim();
@@ -118,11 +97,6 @@ export function ContactPage(){
       if (ok) {
         alert('已送出！我會盡快回覆您。');
         form.reset();
-        // regenerate math to avoid replay
-        const na = Math.floor(Math.random() * 4) + 2;
-        const nb = Math.floor(Math.random() * 5) + 2;
-        form.dataset.a = String(na);
-        form.dataset.b = String(nb);
       } else {
         alert('送出時發生問題，請稍後再試或直接寄信。');
       }
@@ -150,14 +124,6 @@ export function ContactPage(){
       finalize(false);
     }
   });
-
-  // set random a,b per mount
-  const a = Math.floor(Math.random() * 4) + 2; // 2..5
-  const b = Math.floor(Math.random() * 5) + 2; // 2..6
-  form.dataset.a = String(a);
-  form.dataset.b = String(b);
-  // Render math hint into the label placeholder (non-critical UI)
-  // Keep label text from i18n; users type the result into input
 
   const wrap = document.createElement('div');
   wrap.className = 'stack';
