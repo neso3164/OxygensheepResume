@@ -1,4 +1,4 @@
-export function TimelineItem({ period, title, subtitle, details }){
+export function TimelineItem({ period, title, subtitle, details, link }){
   const el = document.createElement('div');
   el.className = 'timeline-item';
 
@@ -19,6 +19,15 @@ export function TimelineItem({ period, title, subtitle, details }){
     const p = document.createElement('p');
     p.textContent = details;
     right.appendChild(p);
+  }
+  if (link){
+    const linkEl = document.createElement('a');
+    linkEl.href = link.url;
+    linkEl.target = '_blank';
+    linkEl.rel = 'noopener noreferrer';
+    linkEl.textContent = link.text;
+    linkEl.className = 'link';
+    right.appendChild(linkEl);
   }
 
   el.appendChild(left);

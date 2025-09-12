@@ -7,9 +7,22 @@ export function ExperiencePage(){
   timeline.className = 'timeline';
 
   const items = [
-    { period: '2023 - Present', title: t('exp_1_title'), subtitle: t('exp_1_sub'), details: t('exp_1_detail') },
-    { period: '2021 - 2023', title: t('exp_2_title'), subtitle: t('exp_2_sub'), details: t('exp_2_detail') },
-    { period: '2019 - 2021', title: t('exp_3_title'), details: t('exp_3_detail') },
+    { 
+      period: '2015年9月 - 2025年3月', 
+      title: t('exp_1_title'), 
+      subtitle: t('exp_1_sub'), 
+      details: t('exp_1_detail'),
+      link: {
+        url: 'https://www.facebook.com/JingCaiAquarium/?locale=zh_TW',
+        text: t('exp_1_link')
+      }
+    },
+    { 
+      period: '2008年6月 - 2015年7月', 
+      title: t('exp_2_title'), 
+      subtitle: t('exp_2_sub'), 
+      details: t('exp_2_detail') 
+    },
   ];
 
   items.forEach(it => timeline.appendChild(TimelineItem(it)));
