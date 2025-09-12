@@ -17,10 +17,16 @@ export function ContactPage(){
   line.innerHTML = `
     <h3>${t('contact_line_title')}</h3>
     <div class="row" style="align-items:center; gap:16px; flex-wrap:wrap;">
-      <img src="assets/line-qr.jpg" alt="LINE QR" style="width:140px; height:140px; object-fit:cover; border-radius:8px; border:1px solid var(--border)" />
+      <div id="line-qr-slot"></div>
       <p class="muted" style="flex:1 1 200px;">${t('contact_line_hint')}</p>
     </div>
   `;
+  const qrSlot = line.querySelector('#line-qr-slot');
+  const img = document.createElement('img');
+  img.alt = 'LINE QR';
+  img.style = 'width:140px; height:140px; object-fit:cover; border-radius:8px; border:1px solid var(--border)';
+  img.src = 'assets/line-qr.png';
+  qrSlot.appendChild(img);
 
   const form = document.createElement('form');
   form.className = 'stack card';
