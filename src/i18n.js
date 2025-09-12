@@ -41,7 +41,7 @@ const dict = {
     work_b: '作品 B',
     work_c: '作品 C',
     work_a_desc: 'LINE Bot 可依照需求擴充其他功能',
-    work_b_desc: '可以放截圖或影片嵌入。',
+    work_b_desc: '此網站與 AI 共構完成，並已連動 LINE Bot。',
     work_c_desc: '支援本機影片：改為 <video>，見 README。',
 
     exp_title: '工作經歷',
@@ -84,7 +84,7 @@ const dict = {
     contact_form_email: 'Email',
     contact_form_message: '訊息',
     contact_math_label: '請計算下列加總（防濫用驗證）',
-    contact_submit: '送出（目前為示意）',
+    contact_submit: '送出',
     contact_note: '暫無後端。你也可以直接寄信到：oxygensheep@gmail.com',
 
     footer_contact: '聯絡我',
@@ -127,7 +127,7 @@ const dict = {
     work_b: 'Project B',
     work_c: 'Project C',
     work_a_desc: 'LINE Bot can be expanded with additional features as needed',
-    work_b_desc: 'Use screenshots or embedded videos.',
+    work_b_desc: 'This site was co-created with AI and integrates with a LINE Bot.',
     work_c_desc: 'Local video supported: switch to <video>, see README.',
 
     exp_title: 'Experience',
@@ -170,7 +170,7 @@ const dict = {
     contact_form_email: 'Email',
     contact_form_message: 'Message',
     contact_math_label: 'Please solve the sum (anti-abuse)',
-    contact_submit: 'Submit (demo only)',
+    contact_submit: 'Submit',
     contact_note: 'No backend yet. Or email me at: oxygensheep@gmail.com',
 
     footer_contact: 'Contact',
