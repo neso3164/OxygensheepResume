@@ -80,7 +80,18 @@ export function ContactPage(){
       userAgent: navigator.userAgent,
       timestamp: new Date().toISOString()
     };
-    const formEncoded = new URLSearchParams(payload).toString();
+    const textLines = [
+      '履歷網頁來信',
+      `Name: ${payload.name}`,
+      `Email: ${payload.email}`,
+      'Message:',
+      payload.message,
+      '---',
+      `URL: ${payload.url}`,
+      `User-Agent: ${payload.userAgent}`,
+      `Time: ${payload.timestamp}`
+    ];
+    const plainText = textLines.join('\n');
 
     const submitBtn = form.querySelector('button[type="submit"]');
     if (submitBtn) {
@@ -104,25 +115,34 @@ export function ContactPage(){
     };
 
     try {
-      // Prefer sendBeacon for CORS-safe, fire-and-forget delivery
+      // Prefer sendBeacon with text/plain for CORS-safe delivery
       if (navigator.sendBeacon) {
-        const blob = new Blob([formEncoded], { type: 'application/x-www-form-urlencoded;charset=UTF-8' });
+        const blob = new Blob([plainText], { type: 'text/plain;charset=UTF-8' });
         const ok = navigator.sendBeacon(webhookUrl, blob);
         finalize(ok);
         return;
       }
-      // Fallback to fetch with no-cors using form encoding (simple request)
+      // Fallback to fetch with no-cors using text/plain (simple request)
       fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-        body: formEncoded,
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: plainText,
         mode: 'no-cors',
         keepalive: true
       })
       .then(() => finalize(true))
       .catch(() => finalize(false));
     } catch (err) {
-      finalize(false);
+      try {
+        // Final fallback: GET with querystring via Image ping (works even with strict CORS)
+        const q = encodeURIComponent(plainText);
+        const img = new Image();
+        img.onload = () => finalize(true);
+        img.onerror = () => finalize(false);
+        img.src = `${webhookUrl}?txt=${q}`;
+      } catch (_) {
+        finalize(false);
+      }
     }
   });
 
