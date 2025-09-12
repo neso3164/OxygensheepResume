@@ -25,7 +25,33 @@ export function ContactPage(){
   const img = document.createElement('img');
   img.alt = 'LINE QR';
   img.style = 'width:140px; height:140px; object-fit:cover; border-radius:8px; border:1px solid var(--border)';
-  img.src = 'assets/line-qr.png';
+  const cacheBust = `?v=${Date.now()}`;
+  const candidates = [
+    'assets/line-qr.png',
+    'assets/line-qr.jpg',
+    'assets/line-qr.jpeg',
+    'assets/line-qr.PNG',
+    'assets/line-qr.JPG'
+  ].map(p => `${p}${cacheBust}`);
+  let idx = 0;
+  const tryNext = () => {
+    if (idx < candidates.length){
+      img.src = candidates[idx++];
+    } else {
+      const warn = document.createElement('p');
+      warn.className = 'muted';
+      warn.textContent = '找不到 QR 圖片：請確認檔案位於 assets/ 並命名為 line-qr.(png|jpg|jpeg)';
+      qrSlot.appendChild(warn);
+    }
+  };
+  img.onerror = tryNext;
+  img.onload = () => {
+    const ok = document.createElement('p');
+    ok.className = 'muted';
+    ok.textContent = `已載入：${img.src.replace(window.location.origin, '')}`;
+    qrSlot.appendChild(ok);
+  };
+  tryNext();
   qrSlot.appendChild(img);
 
   const form = document.createElement('form');
