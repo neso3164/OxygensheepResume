@@ -4,7 +4,7 @@ const listeners = new Set();
 
 const dict = {
   'zh-Hant': {
-    brand: '我的履歷',
+    brand: '張念祥的履歷',
     nav_home: '首頁',
     nav_about: '關於 / 自傳',
     nav_portfolio: '作品集',
@@ -39,10 +39,10 @@ const dict = {
     portfolio_subtitle: '支援影片嵌入與卡片展示',
     work_a: 'LINE Bot 自動化系統',
     work_b: '本網站',
-    work_c: '作品 C',
+    work_c: 'LINE BOT 智能行事曆功能',
     work_a_desc: 'LINE Bot 可依照需求擴充其他功能',
     work_b_desc: '此網站與 AI 共構完成，並已連動 LINE Bot。',
-    work_c_desc: '暫空。',
+    work_c_desc: '因個人需求而再更新的功能',
 
     exp_title: '工作經歷',
     exp_subtitle: '時間軸呈現重點經歷與成果',
@@ -125,10 +125,10 @@ const dict = {
     portfolio_subtitle: 'Video embeds and card layout',
     work_a: 'LINE Bot Automation System',
     work_b: 'This Website',
-    work_c: 'Project C',
+    work_c: 'LINE BOT Smart Calendar Feature',
     work_a_desc: 'LINE Bot can be expanded with additional features as needed',
     work_b_desc: 'This site was co-created with AI and integrates with a LINE Bot.',
-    work_c_desc: 'TBD.',
+    work_c_desc: 'Updated functionality based on personal needs',
 
     exp_title: 'Experience',
     exp_subtitle: 'Timeline of roles and achievements',

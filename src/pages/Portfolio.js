@@ -10,7 +10,7 @@ export function PortfolioPage(){
   const items = [
     { title: t('work_a'), description: t('work_a_desc'), video: 'https://www.youtube.com/embed/OUy5wP4zzgM' },
     { title: t('work_b'), description: t('work_b_desc') },
-    { title: t('work_c'), description: t('work_c_desc') },
+    { title: t('work_c'), description: t('work_c_desc'), video: 'https://www.youtube.com/embed/D7vvfshkZZU' },
   ];
 
   items.forEach(it => {
