@@ -8,10 +8,10 @@ export function PortfolioPage(){
   grid.className = 'cards';
 
   const items = [
-    { title: t('work_a'), description: t('work_a_desc'), video: 'https://www.youtube.com/embed/OUy5wP4zzgM' },
-    { title: t('work_b'), description: t('work_b_desc') },
-    { title: t('work_c'), description: t('work_c_desc'), video: 'https://www.youtube.com/embed/D7vvfshkZZU' },
     { title: t('work_d'), description: t('work_d_desc'), video: 'https://www.youtube.com/embed/DI825eDJuuI' },
+    { title: t('work_a'), description: t('work_a_desc'), video: 'https://www.youtube.com/embed/OUy5wP4zzgM' },
+    { title: t('work_c'), description: t('work_c_desc'), video: 'https://www.youtube.com/embed/D7vvfshkZZU' },
+    { title: t('work_b'), description: t('work_b_desc') },
   ];
 
   items.forEach(it => {
