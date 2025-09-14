@@ -40,9 +40,11 @@ const dict = {
     work_a: 'LINE Bot 自動化系統',
     work_b: '本網站',
     work_c: 'LINE BOT 智能行事曆功能',
+    work_d: '水族業落地BOT',
     work_a_desc: 'LINE Bot 可依照需求擴充其他功能',
     work_b_desc: '此網站與 AI 共構完成，並已連動 LINE Bot。',
     work_c_desc: '因個人需求而再更新的功能',
+    work_d_desc: '結合AI與雲端運算提供預約提醒.報價單資料處理入庫與報價單產品查詢.還有每日營業相關登記作為接下來營運分析資料',
 
     exp_title: '工作經歷',
     exp_subtitle: '時間軸呈現重點經歷與成果',
@@ -126,9 +128,11 @@ const dict = {
     work_a: 'LINE Bot Automation System',
     work_b: 'This Website',
     work_c: 'LINE BOT Smart Calendar Feature',
+    work_d: 'Aquarium Industry BOT',
     work_a_desc: 'LINE Bot can be expanded with additional features as needed',
     work_b_desc: 'This site was co-created with AI and integrates with a LINE Bot.',
     work_c_desc: 'Updated functionality based on personal needs',
+    work_d_desc: 'Combines AI and cloud computing to provide appointment reminders, quotation data processing and storage, product queries, and daily business registration for operational analysis',
 
     exp_title: 'Experience',
     exp_subtitle: 'Timeline of roles and achievements',
