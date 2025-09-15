@@ -8,10 +8,16 @@ export function Card({ title, description, media }){
     el.appendChild(h3);
   }
   if (description){
-    const p = document.createElement('p');
-    p.className = 'muted';
-    p.textContent = description;
-    el.appendChild(p);
+    const parts = String(description).split(/<P\/?>(?![^]*<P\/?)/i); // split by <P> or <P/>
+    const sanitizedParts = parts.flatMap(part => String(part).split(/<P>/i));
+    sanitizedParts.forEach((text, idx) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      const p = document.createElement('p');
+      p.className = 'muted';
+      p.textContent = trimmed;
+      el.appendChild(p);
+    });
   }
   return el;
 }
