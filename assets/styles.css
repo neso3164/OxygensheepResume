@@ -74,6 +74,7 @@ section.section.alt{background:var(--bg-elev)}
 
 /* Cards */
 .card{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px}
+.card hr{border:0; border-top:1px solid var(--border); height:0; margin:8px 0}
 .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
 @media (max-width:960px){.cards{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:640px){.cards{grid-template-columns:1fr}}

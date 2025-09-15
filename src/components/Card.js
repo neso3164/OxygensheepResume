@@ -20,6 +20,9 @@ export function Card({ title, description, media }){
         if (!trimmed){
           return;
         }
+        if (trimmed === '.' || trimmed === '|'){
+          return;
+        }
         if (trimmed === '---'){
           const hr = document.createElement('hr');
           el.appendChild(hr);
