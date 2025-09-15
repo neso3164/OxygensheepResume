@@ -125,14 +125,14 @@ const dict = {
 
     portfolio_title: 'Portfolio',
     portfolio_subtitle: 'Video embeds and card layout',
-    work_a: 'LINE Bot Automation System',
+    work_a: 'Smart Customer Service Bot',
     work_b: 'This Website',
     work_c: 'LINE BOT Smart Calendar Feature',
-    work_d: 'Aquarium Industry BOT',
-    work_a_desc: 'LINE Bot can be expanded with additional features as needed',
+    work_d: 'Aquarium-specific Bookkeeping & Management Bot',
+    work_a_desc: 'Features: LINE Bot + GPT answers from the support handbook; supports handing off to a human via Gmail draft.\nStatus: Demo completed simulating real customer service scenarios; now refined into a personal assistant bot.\n\n---\n\n### Automated Customer Reply System\n\n- **Situation**: Customers often ask about products or services via LINE. Manual replies are time‑consuming and prone to delays or mistakes.\n- **Action**: Integrated LINE Bot with GPT. When a question arrives, GPT consults the support handbook and replies instantly. If the user is still unsatisfied, they can input "keyword + extra note" and the system auto‑generates a Gmail draft to the human support inbox for follow‑up.\n- **Result**: Shorter wait time and higher answer accuracy. Human agents can focus on the few complex cases, significantly improving efficiency.\n\n---\n\n### Automated Bookkeeping & Reporting\n\n- **Situation**: Previously, spending/top‑up records required manual entry and calculations, which was tedious and error‑prone.\n- **Action**: Users only need to send a "spending or top‑up" message in LINE. GPT normalizes it to a standard format and imports it into Google Sheets; then GAS sorts and aggregates, and an instant confirmation message is returned to the user.\n- **Result**: Bookkeeping is fully automated, avoiding manual errors. Users immediately receive updates, greatly improving transparency and trust.',
     work_b_desc: 'This site was co-created with AI and integrates with a LINE Bot.',
     work_c_desc: 'Updated functionality based on personal needs',
-    work_d_desc: 'Combines AI and cloud computing to provide appointment reminders, quotation data processing and storage, product queries, and daily business registration for operational analysis',
+    work_d_desc: 'Features: Automatic recording of spending/top‑up messages, GAS sorting & aggregation, and instant LINE replies.\nStatus: Deployed in an aquarium storefront and continuously maintained.\n\n---\n\n### Quotation Sheet Automation\n\n- **Situation**: The quotation list contains nearly 2,000 items. Manually browsing or updating is time‑consuming and error‑prone.\n- **Action**: Built an automated process to update the quotation sheet and provide fast keyword search.\n- **Result**: Instant results for every update or price lookup, dramatically reducing search time and errors.\n\n---\n\n### Appointment Flow Optimization\n\n- **Situation**: When away from a computer, reservations were recorded on paper or phone notes, which were easy to miss.\n- **Action**: Designed an automated flow that adds reservation details directly to Google Calendar with phone sync reminders.\n- **Result**: Completely replaces paper notes, lowers the risk of omissions, and improves accuracy and convenience of appointment management.\n\n---\n\n### Real‑time Business Analytics\n\n- **Situation**: Operational analysis used to require heavy data cleaning and preparation.\n- **Action**: Established an automated input pipeline so data is stored in the correct analysis‑ready format upon entry.\n- **Result**: Data is immediately usable for analysis, eliminating tedious cleaning and accelerating decision‑making.',
 
     exp_title: 'Experience',
     exp_subtitle: 'Timeline of roles and achievements',
