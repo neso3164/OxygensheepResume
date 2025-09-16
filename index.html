@@ -15,7 +15,7 @@
       /* Scoped styles for the mini chat widget */
       .chat-toggle{position:fixed;right:20px;bottom:20px;padding:10px 14px;border:0;border-radius:999px;background:#111;color:#ffd400;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.18);cursor:pointer;z-index:9999;font-family:"Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Arial}
       .chat-window{position:fixed;right:20px;bottom:80px;width:340px;max-height:70vh;background:#0b0b0b;border:1px solid #222;border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.4);display:none;overflow:hidden;z-index:9999;font-family:"Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Arial;color:#f5f5f5}
-      .chat-cover{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-bottom:1px solid #222;background:#111}
+      .chat-badge{position:fixed;right:20px;bottom:84px;display:block;border-radius:12px;object-fit:cover;border:1px solid #222;background:#111;box-shadow:0 8px 24px rgba(0,0,0,.28);z-index:9999;cursor:pointer}
       .chat-header{padding:10px 12px;background:#111;color:#ffd400;font-weight:700}
       .chat-body{padding:12px;height:42vh;overflow:auto;background:#0f0f0f}
       .msg{margin:8px 0;line-height:1.5}
@@ -36,10 +36,10 @@
 
     <script type="module" src="src/app.js"></script>
     <!-- Mini chat widget -->
+    <img class="chat-badge" id="chat-badge" alt="豬仔AI封面">
     <button class="chat-toggle" aria-controls="chat" aria-expanded="false">豬仔AI小窗</button>
 
     <div class="chat-window" id="chat" role="dialog" aria-label="豬仔AI小視窗">
-      <img class="chat-cover" id="chat-cover" alt="聊天視窗封面">
       <div class="chat-header">豬仔AI小助手</div>
       <div class="chat-body" id="log"></div>
       <div class="chat-input">
@@ -57,11 +57,11 @@
         const log    = document.getElementById('log');
         const inp    = document.getElementById('inp');
         const send   = document.getElementById('send');
-        const cover  = document.getElementById('chat-cover');
+        const badge  = document.getElementById('chat-badge');
 
-        // Load cover image with multiple fallbacks (supports filename without extension)
-        (function loadCover(){
-          if (!cover) return;
+        // Load badge image with multiple fallbacks (supports filename without extension)
+        (function loadBadge(){
+          if (!badge) return;
           const base = 'assets/PIGAI';
           const candidates = [
             `${base}`,
@@ -70,27 +70,39 @@
           let i = 0;
           const tryNext = () => {
             if (i >= candidates.length){
-              // final fallback: hide cover if all fail
-              cover.style.display = 'none';
+              badge.style.display = 'none';
               return;
             }
-            cover.src = candidates[i++];
+            badge.src = candidates[i++];
           };
-          cover.onerror = tryNext;
-          cover.onload = () => { /* ok */ };
+          badge.onerror = tryNext;
+          badge.onload = () => { /* ok */ };
           tryNext();
         })();
+
+        // Keep badge square and same width as toggle
+        function syncBadgeSize(){
+          if (!badge || !toggle) return;
+          const rect = toggle.getBoundingClientRect();
+          const width = rect.width; // equals toggle's rendered width
+          badge.style.width = width + 'px';
+          badge.style.height = width + 'px';
+        }
+        syncBadgeSize();
+        window.addEventListener('resize', syncBadgeSize);
 
         function setExpanded(isOpen){
           toggle.setAttribute('aria-expanded', String(isOpen));
         }
 
-        toggle.addEventListener('click', () => {
+        function toggleChat(){
           const isOpen = chat.style.display === 'block';
           chat.style.display = isOpen ? 'none' : 'block';
           setExpanded(!isOpen);
           if(!isOpen) inp.focus();
-        });
+        }
+        toggle.addEventListener('click', toggleChat);
+        if (badge){ badge.addEventListener('click', toggleChat); }
 
         function push(role, text){
           const div = document.createElement('div');
