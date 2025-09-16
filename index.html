@@ -39,7 +39,7 @@
     <button class="chat-toggle" aria-controls="chat" aria-expanded="false">豬仔AI小窗</button>
 
     <div class="chat-window" id="chat" role="dialog" aria-label="豬仔AI小視窗">
-      <img class="chat-cover" src="assets/PIGAI.PNG" alt="聊天視窗封面">
+      <img class="chat-cover" id="chat-cover" alt="聊天視窗封面">
       <div class="chat-header">豬仔AI小助手</div>
       <div class="chat-body" id="log"></div>
       <div class="chat-input">
@@ -57,6 +57,29 @@
         const log    = document.getElementById('log');
         const inp    = document.getElementById('inp');
         const send   = document.getElementById('send');
+        const cover  = document.getElementById('chat-cover');
+
+        // Load cover image with multiple fallbacks (supports filename without extension)
+        (function loadCover(){
+          if (!cover) return;
+          const base = 'assets/PIGAI';
+          const candidates = [
+            `${base}`,
+            `${base}.png`, `${base}.PNG`, `${base}.jpg`, `${base}.JPG`, `${base}.jpeg`, `${base}.webp`
+          ];
+          let i = 0;
+          const tryNext = () => {
+            if (i >= candidates.length){
+              // final fallback: hide cover if all fail
+              cover.style.display = 'none';
+              return;
+            }
+            cover.src = candidates[i++];
+          };
+          cover.onerror = tryNext;
+          cover.onload = () => { /* ok */ };
+          tryNext();
+        })();
 
         function setExpanded(isOpen){
           toggle.setAttribute('aria-expanded', String(isOpen));
