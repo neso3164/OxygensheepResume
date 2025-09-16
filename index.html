@@ -14,16 +14,17 @@
     <style>
       /* Scoped styles for the mini chat widget */
       .chat-toggle{position:fixed;right:20px;bottom:20px;padding:10px 14px;border:0;border-radius:999px;background:#111;color:#ffd400;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.18);cursor:pointer;z-index:9999;font-family:"Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Arial}
-      .chat-window{position:fixed;right:20px;bottom:80px;width:340px;max-height:70vh;background:#fff;border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.2);display:none;overflow:hidden;z-index:9999;font-family:"Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Arial}
+      .chat-window{position:fixed;right:20px;bottom:80px;width:340px;max-height:70vh;background:#0b0b0b;border:1px solid #222;border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.4);display:none;overflow:hidden;z-index:9999;font-family:"Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Arial;color:#f5f5f5}
       .chat-header{padding:10px 12px;background:#111;color:#ffd400;font-weight:700}
-      .chat-body{padding:12px;height:42vh;overflow:auto;background:#fafafa}
+      .chat-body{padding:12px;height:42vh;overflow:auto;background:#0f0f0f}
       .msg{margin:8px 0;line-height:1.5}
-      .msg.user{text-align:right}
-      .msg.assistant{text-align:left}
-      .chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid #eee;background:#fff}
-      .chat-input input{flex:1;padding:10px 12px;border:1px solid #ddd;border-radius:10px}
+      .msg.user{text-align:right;color:#e8e8e8}
+      .msg.assistant{text-align:left;color:#d1d5db}
+      .chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid #222;background:#0b0b0b}
+      .chat-input input{flex:1;padding:10px 12px;border:1px solid #2b2b2b;border-radius:10px;background:#151515;color:#f3f4f6}
+      .chat-input input::placeholder{color:#777}
       .chat-input button{padding:10px 12px;border:0;border-radius:10px;background:#111;color:#ffd400;font-weight:700;cursor:pointer}
-      .hint{font-size:12px;color:#888;margin-top:4px}
+      .hint{font-size:12px;color:#9ca3af;margin-top:4px}
     </style>
   </head>
   <body>
@@ -37,13 +38,13 @@
     <button class="chat-toggle" aria-controls="chat" aria-expanded="false">豬仔AI小窗</button>
 
     <div class="chat-window" id="chat" role="dialog" aria-label="豬仔AI小視窗">
-      <div class="chat-header">豬仔（4.1-mini）</div>
+      <div class="chat-header">豬仔AI小助手</div>
       <div class="chat-body" id="log"></div>
       <div class="chat-input">
         <input id="inp" placeholder="輸入訊息…" aria-label="輸入訊息">
         <button id="send">送出</button>
       </div>
-      <div class="hint" style="padding:0 12px 10px;">會把你的訊息送到 Make Webhook，再回傳 reply 顯示。</div>
+      <div class="hint" style="padding:0 12px 10px;">還是直接寄EMAIL給我更詳盡喔~</div>
     </div>
 
     <script>
@@ -82,14 +83,43 @@
           send.disabled = true;
 
           try{
-            const res = await fetch(API, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ message: text }) // 期待 { reply: "..." }
-            });
-            if(!res.ok) throw new Error('HTTP ' + res.status);
-            const data = await res.json();
-            push('assistant', (data && (data.reply || data.message || data.text)) || '（沒有回覆內容）');
+            // Try POST JSON first
+            let replyText = '';
+            try {
+              const res = await fetch(API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text })
+              });
+              // Some webhooks return text/plain. Try JSON, then text.
+              const contentType = res.headers.get('content-type') || '';
+              if(!res.ok) throw new Error('HTTP ' + res.status);
+              if(contentType.includes('application/json')){
+                const data = await res.json();
+                replyText = (data && (data.reply || data.message || data.text)) || '';
+              } else {
+                const t = await res.text();
+                // If text contains a JSON-looking object, try parse
+                try { const j = JSON.parse(t); replyText = j.reply || j.message || j.text || t; }
+                catch { replyText = t; }
+              }
+            } catch (e) {
+              // Likely CORS/preflight blocked. Fallback to GET with query (simple request)
+              const url = API + '?message=' + encodeURIComponent(text);
+              const res2 = await fetch(url, { method: 'GET' });
+              const ctype2 = res2.headers.get('content-type') || '';
+              if(!res2.ok) throw new Error('HTTP ' + res2.status);
+              if(ctype2.includes('application/json')){
+                const data2 = await res2.json();
+                replyText = (data2 && (data2.reply || data2.message || data2.text)) || '';
+              } else {
+                const t2 = await res2.text();
+                try { const j2 = JSON.parse(t2); replyText = j2.reply || j2.message || j2.text || t2; }
+                catch { replyText = t2; }
+              }
+            }
+
+            push('assistant', replyText || '（沒有回覆內容）');
           }catch(err){
             console.error(err);
             push('assistant', '（出錯了，稍後再試）');
