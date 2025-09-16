@@ -11,52 +11,45 @@ export function ContactPage(){
     <div><strong>${t('contact_response_label')}：</strong>${t('contact_response_value')}</div>
   `;
 
-  // LINE QR section
-  const line = document.createElement('div');
-  line.className = 'card stack';
-  line.innerHTML = `
-    <h3>${t('contact_line_title')}</h3>
-    <div class="row" style="align-items:center; gap:16px; flex-wrap:wrap;">
-      <div id="line-qr-slot"></div>
-      <p class="muted" style="flex:1 1 200px;">${t('contact_line_hint')}</p>
-    </div>
-  `;
-  const qrSlot = line.querySelector('#line-qr-slot');
-  const img = document.createElement('img');
-  img.alt = 'LINE QR';
-  img.style = 'width:140px; height:140px; object-fit:cover; border-radius:8px; border:1px solid var(--border)';
-  const cacheBust = `?v=${Date.now()}`;
-  const candidates = [
-    'assets/line-qr.png',
-    'assets/line-qr.jpg',
-    'assets/line-qr.jpeg',
-    'assets/line-qr.PNG',
-    'assets/line-qr.JPG'
-  ].map(p => `${p}${cacheBust}`);
-  let idx = 0;
-  const tryNext = () => {
-    if (idx < candidates.length){
-      img.src = candidates[idx++];
-    } else {
-      const warn = document.createElement('p');
-      warn.className = 'muted';
-      warn.textContent = '找不到 QR 圖片：請確認檔案位於 assets/ 並命名為 line-qr.(png|jpg|jpeg)';
-      qrSlot.appendChild(warn);
-    }
-  };
-  img.onerror = tryNext;
-  img.onload = () => {};
-  tryNext();
-  qrSlot.appendChild(img);
+  // LINE section removed per request
 
   const form = document.createElement('form');
   form.className = 'stack card';
+
+  const makeChallenge = () => {
+    const a = Math.floor(1 + Math.random() * 9);
+    const b = Math.floor(1 + Math.random() * 9);
+    const op = ['+', '-'][Math.floor(Math.random()*2)];
+    const answer = op === '+' ? a + b : a - b;
+    const question = `請計算：${a} ${op} ${b} = ?`;
+    return { question, answer: String(answer) };
+  };
+  let challenge = makeChallenge();
+  form.dataset.answer = challenge.answer;
+
   form.innerHTML = `
     <label>${t('contact_form_name')}<input required name="name" class="btn" style="width:100%"></label>
     <label>${t('contact_form_email')}<input required type="email" name="email" class="btn" style="width:100%"></label>
     <label>${t('contact_form_message')}<textarea required name="message" class="btn" style="width:100%; min-height:120px"></textarea></label>
+    <div class="row" style="align-items:center; gap:8px; flex-wrap:wrap;">
+      <label style="flex:1 1 220px;">
+        防濫用驗證：<span id="challenge-q">${challenge.question}</span>
+        <input required name="verify" class="btn" style="width:100%" placeholder="請輸入答案">
+      </label>
+      <button class="btn" type="button" id="challenge-refresh" title="換一題">換一題</button>
+    </div>
     <button class="btn" type="submit">${t('contact_submit')}</button>
   `;
+  const challengeQ = () => form.querySelector('#challenge-q');
+  const refreshBtn = () => form.querySelector('#challenge-refresh');
+  refreshBtn().addEventListener('click', () => {
+    challenge = makeChallenge();
+    form.dataset.answer = challenge.answer;
+    const qEl = challengeQ();
+    if (qEl) qEl.textContent = challenge.question;
+    const verifyInput = form.querySelector('input[name="verify"]');
+    if (verifyInput) verifyInput.value = '';
+  });
   form.addEventListener('submit', e => {
     e.preventDefault();
     const fd = new FormData(form);
@@ -64,6 +57,20 @@ export function ContactPage(){
     const name = (fd.get('name') || '').toString().trim();
     const email = (fd.get('email') || '').toString().trim();
     const message = (fd.get('message') || '').toString().trim();
+    const verify = (fd.get('verify') || '').toString().trim();
+    const expected = form.dataset.answer || '';
+    if (!verify || verify !== expected){
+      alert('防濫用驗證答案不正確，請再試一次。');
+      const qEl = challengeQ();
+      if (!qEl || !qEl.textContent){
+        // 確保題目一定可見
+        challenge = makeChallenge();
+        form.dataset.answer = challenge.answer;
+        if (qEl) qEl.textContent = challenge.question;
+      }
+      return;
+    }
+
     const payload = {
       keyword: '履歷網頁來信',
       name,
@@ -72,7 +79,8 @@ export function ContactPage(){
       source: 'contact-form',
       url: location.href,
       userAgent: navigator.userAgent,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      verify
     };
     const textLines = [
       '履歷網頁來信',
@@ -144,7 +152,6 @@ export function ContactPage(){
   wrap.className = 'stack';
   wrap.appendChild(info);
   wrap.appendChild(form);
-  wrap.appendChild(line);
 
   const s = Section({ title: t('contact_title'), subtitle: t('contact_subtitle'), children: wrap });
   const el = document.createElement('div');
