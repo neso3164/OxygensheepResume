@@ -11,6 +11,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      /* Scoped styles for the mini chat widget */
+      .chat-toggle{position:fixed;right:20px;bottom:20px;padding:10px 14px;border:0;border-radius:999px;background:#111;color:#ffd400;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.18);cursor:pointer;z-index:9999;font-family:"Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Arial}
+      .chat-window{position:fixed;right:20px;bottom:80px;width:340px;max-height:70vh;background:#fff;border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.2);display:none;overflow:hidden;z-index:9999;font-family:"Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Arial}
+      .chat-header{padding:10px 12px;background:#111;color:#ffd400;font-weight:700}
+      .chat-body{padding:12px;height:42vh;overflow:auto;background:#fafafa}
+      .msg{margin:8px 0;line-height:1.5}
+      .msg.user{text-align:right}
+      .msg.assistant{text-align:left}
+      .chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid #eee;background:#fff}
+      .chat-input input{flex:1;padding:10px 12px;border:1px solid #ddd;border-radius:10px}
+      .chat-input button{padding:10px 12px;border:0;border-radius:10px;background:#111;color:#ffd400;font-weight:700;cursor:pointer}
+      .hint{font-size:12px;color:#888;margin-top:4px}
+    </style>
   </head>
   <body>
     <noscript style="color:#b91c1c; padding:8px 12px; display:block; background:#fff3f3; border-bottom:1px solid #fca5a5">此網站需要啟用 JavaScript 才能運作 / JavaScript is required.</noscript>
@@ -19,6 +33,76 @@
     </div>
 
     <script type="module" src="src/app.js"></script>
+    <!-- Mini chat widget -->
+    <button class="chat-toggle" aria-controls="chat" aria-expanded="false">豬仔AI小窗</button>
+
+    <div class="chat-window" id="chat" role="dialog" aria-label="豬仔AI小視窗">
+      <div class="chat-header">豬仔（4.1-mini）</div>
+      <div class="chat-body" id="log"></div>
+      <div class="chat-input">
+        <input id="inp" placeholder="輸入訊息…" aria-label="輸入訊息">
+        <button id="send">送出</button>
+      </div>
+      <div class="hint" style="padding:0 12px 10px;">會把你的訊息送到 Make Webhook，再回傳 reply 顯示。</div>
+    </div>
+
+    <script>
+      (function(){
+        const API = "https://hook.us2.make.com/q4rqle6snt5nl5t64rel8eaker22wq88"; // Webhook URL
+        const chat   = document.getElementById('chat');
+        const toggle = document.querySelector('.chat-toggle');
+        const log    = document.getElementById('log');
+        const inp    = document.getElementById('inp');
+        const send   = document.getElementById('send');
+
+        function setExpanded(isOpen){
+          toggle.setAttribute('aria-expanded', String(isOpen));
+        }
+
+        toggle.addEventListener('click', () => {
+          const isOpen = chat.style.display === 'block';
+          chat.style.display = isOpen ? 'none' : 'block';
+          setExpanded(!isOpen);
+          if(!isOpen) inp.focus();
+        });
+
+        function push(role, text){
+          const div = document.createElement('div');
+          div.className = 'msg ' + role;
+          div.textContent = text;
+          log.appendChild(div);
+          log.scrollTop = log.scrollHeight;
+        }
+
+        async function ask(){
+          const text = inp.value.trim();
+          if(!text) return;
+          inp.value = '';
+          push('user', text);
+          send.disabled = true;
+
+          try{
+            const res = await fetch(API, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: text }) // 期待 { reply: "..." }
+            });
+            if(!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            push('assistant', (data && (data.reply || data.message || data.text)) || '（沒有回覆內容）');
+          }catch(err){
+            console.error(err);
+            push('assistant', '（出錯了，稍後再試）');
+          }finally{
+            send.disabled = false;
+            inp.focus();
+          }
+        }
+
+        send.addEventListener('click', ask);
+        inp.addEventListener('keydown', e => { if(e.key === 'Enter') ask(); });
+      })();
+    </script>
   </body>
   </html>
 
