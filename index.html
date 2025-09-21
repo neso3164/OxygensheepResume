@@ -120,6 +120,9 @@
           send.disabled = true;
 
           try{
+            console.log('Sending to webhook:', API);
+            console.log('Payload:', { message: text });
+            
             // Try POST JSON first
             let replyText = '';
             try {
@@ -128,38 +131,68 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: text })
               });
-              // Some webhooks return text/plain. Try JSON, then text.
+              
+              console.log('POST Response status:', res.status);
+              console.log('POST Response headers:', Object.fromEntries(res.headers.entries()));
+              
               const contentType = res.headers.get('content-type') || '';
-              if(!res.ok) throw new Error('HTTP ' + res.status);
+              if(!res.ok) {
+                const errorText = await res.text();
+                console.log('POST Error response:', errorText);
+                throw new Error(`HTTP ${res.status}: ${errorText}`);
+              }
+              
               if(contentType.includes('application/json')){
                 const data = await res.json();
+                console.log('POST JSON response:', data);
                 replyText = (data && (data.reply || data.message || data.text)) || '';
               } else {
                 const t = await res.text();
-                // If text contains a JSON-looking object, try parse
-                try { const j = JSON.parse(t); replyText = j.reply || j.message || j.text || t; }
-                catch { replyText = t; }
+                console.log('POST Text response:', t);
+                try { 
+                  const j = JSON.parse(t); 
+                  replyText = j.reply || j.message || j.text || t; 
+                } catch { 
+                  replyText = t; 
+                }
               }
             } catch (e) {
-              // Likely CORS/preflight blocked. Fallback to GET with query (simple request)
+              console.log('POST failed, trying GET fallback:', e.message);
+              // Fallback to GET with query (simple request)
               const url = API + '?message=' + encodeURIComponent(text);
+              console.log('GET URL:', url);
+              
               const res2 = await fetch(url, { method: 'GET' });
+              console.log('GET Response status:', res2.status);
+              
               const ctype2 = res2.headers.get('content-type') || '';
-              if(!res2.ok) throw new Error('HTTP ' + res2.status);
+              if(!res2.ok) {
+                const errorText2 = await res2.text();
+                console.log('GET Error response:', errorText2);
+                throw new Error(`GET HTTP ${res2.status}: ${errorText2}`);
+              }
+              
               if(ctype2.includes('application/json')){
                 const data2 = await res2.json();
+                console.log('GET JSON response:', data2);
                 replyText = (data2 && (data2.reply || data2.message || data2.text)) || '';
               } else {
                 const t2 = await res2.text();
-                try { const j2 = JSON.parse(t2); replyText = j2.reply || j2.message || j2.text || t2; }
-                catch { replyText = t2; }
+                console.log('GET Text response:', t2);
+                try { 
+                  const j2 = JSON.parse(t2); 
+                  replyText = j2.reply || j2.message || j2.text || t2; 
+                } catch { 
+                  replyText = t2; 
+                }
               }
             }
 
+            console.log('Final reply text:', replyText);
             push('assistant', replyText || '（沒有回覆內容）');
           }catch(err){
-            console.error('Webhook error:', err);
-            push('assistant', `（出錯了：${err.message || '網路連線問題'}，稍後再試）`);
+            console.error('Webhook error details:', err);
+            push('assistant', 'API暫時已用盡 目前還無法進行自動回復');
           }finally{
             send.disabled = false;
             inp.focus();
