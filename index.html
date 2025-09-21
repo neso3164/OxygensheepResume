@@ -158,8 +158,8 @@
 
             push('assistant', replyText || '（沒有回覆內容）');
           }catch(err){
-            console.error(err);
-            push('assistant', '（出錯了，稍後再試）');
+            console.error('Webhook error:', err);
+            push('assistant', `（出錯了：${err.message || '網路連線問題'}，稍後再試）`);
           }finally{
             send.disabled = false;
             inp.focus();
